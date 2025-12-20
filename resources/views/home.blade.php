@@ -106,38 +106,39 @@
         </div>
     </nav> --}}
 
-    <nav id="navbar"
-    class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent">
-    <div class="max-w-screen-xl flex items-center justify-between mx-auto px-4 py-4">
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent">
+        <div class="max-w-screen-xl flex items-center justify-between mx-auto px-4 py-4">
 
-        <a href="/" class="text-xl font-bold text-white">
-            RedStay
-        </a>
-
-        <ul class="hidden md:flex space-x-8 font-medium">
-            <li><a href="#" class="text-white hover:text-red-300">Hotel</a></li>
-            <li><a href="#" class="text-white hover:text-red-300">Promo</a></li>
-            <li><a href="#" class="text-white hover:text-red-300">Bantuan</a></li>
-        </ul>
-
-        <div class="flex items-center gap-2">
-            <a href="{{ route('login') }}"
-                class="hidden md:inline-block text-white border border-white px-4 py-2 rounded-lg hover:bg-white/10 text-sm">
-                Login
+            <a href="/" class="text-xl font-bold text-white">
+                RedStay
             </a>
-            <a href="{{ route('register') }}"
-                class="hidden md:inline-block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm">
-                Daftar
-            </a>
+
+            <ul class="hidden md:flex space-x-8 font-medium">
+                <li><a href="#" class="text-white hover:text-red-300">Hotel</a></li>
+                <li><a href="#" class="text-white hover:text-red-300">Promo</a></li>
+                <li><a href="#" class="text-white hover:text-red-300">Bantuan</a></li>
+            </ul>
+
+            <div class="flex items-center gap-2">
+                <a href="{{ route('login') }}"
+                    class="hidden md:inline-block text-white border border-white px-4 py-2 rounded-lg hover:bg-white/10 text-sm">
+                    Login
+                </a>
+                <a href="{{ route('register') }}"
+                    class="hidden md:inline-block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm">
+                    Daftar
+                </a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 
     <!-- Hero -->
     <section class="relative min-h-[70vh]">
         <div class="absolute inset-0">
-            <img loading="lazy" src="https://images.reddoorz.com/banner/id/153/KV_Reddoorz_Main_Visual_webmainbanner-1366x530-hi_ID__1_.jpg?w=1366" class="w-full h-full object-cover">
+            <img loading="lazy"
+                src="https://images.reddoorz.com/banner/id/153/KV_Reddoorz_Main_Visual_webmainbanner-1366x530-hi_ID__1_.jpg?w=1366"
+                class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30"></div>
         </div>
 
@@ -296,28 +297,28 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
 
     <script>
-    const navbar = document.getElementById('navbar');
+        const navbar = document.getElementById('navbar');
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 80) {
-            navbar.classList.remove('bg-transparent');
-            navbar.classList.add('bg-white', 'shadow');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
+                navbar.classList.remove('bg-transparent');
+                navbar.classList.add('bg-white', 'shadow');
 
-            navbar.querySelectorAll('a').forEach(link => {
-                link.classList.remove('text-white');
-                link.classList.add('text-gray-700');
-            });
-        } else {
-            navbar.classList.add('bg-transparent');
-            navbar.classList.remove('bg-white', 'shadow');
+                navbar.querySelectorAll('a').forEach(link => {
+                    link.classList.remove('text-white');
+                    link.classList.add('text-gray-700');
+                });
+            } else {
+                navbar.classList.add('bg-transparent');
+                navbar.classList.remove('bg-white', 'shadow');
 
-            navbar.querySelectorAll('a').forEach(link => {
-                link.classList.add('text-white');
-                link.classList.remove('text-gray-700');
-            });
-        }
-    });
-</script>
+                navbar.querySelectorAll('a').forEach(link => {
+                    link.classList.add('text-white');
+                    link.classList.remove('text-gray-700');
+                });
+            }
+        });
+    </script>
 
 </body>
 
