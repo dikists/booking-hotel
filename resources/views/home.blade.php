@@ -13,75 +13,7 @@
 <body class="bg-gray-50 text-gray-800">
 
     <!-- Navbar -->
-
-
     {{-- <nav class="bg-white border-b shadow-sm">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-3">
-
-            <!-- Logo -->
-            <a href="/" class="flex items-center space-x-2">
-                <span class="text-xl font-bold text-red-600">RedStay</span>
-            </a>
-
-            <!-- Right button (desktop) -->
-            <div class="flex md:order-2 space-x-2">
-                <button
-                    class="hidden md:inline-block text-red-600 border border-red-600 px-4 py-2 rounded-lg hover:bg-red-50 text-sm font-medium">
-                    Login
-                </button>
-                <button
-                    class="hidden md:inline-block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-medium">
-                    Daftar
-                </button>
-
-                <!-- Mobile menu button -->
-                <button data-collapse-toggle="navbar-redstay" type="button"
-                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-600 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-200"
-                    aria-controls="navbar-redstay" aria-expanded="false">
-                    <span class="sr-only">Open main menu</span>
-                    <svg class="w-6 h-6" aria-hidden="true" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                            d="M5 7h14M5 12h14M5 17h14" />
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Menu -->
-            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-redstay">
-                <ul
-                    class="flex flex-col font-medium p-4 md:p-0 mt-4 border rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
-                    <li>
-                        <a href="#" class="block py-2 px-3 text-red-600 md:p-0 font-semibold">
-                            Hotel
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="block py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 md:p-0">
-                            Promo
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="block py-2 px-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 md:p-0">
-                            Bantuan
-                        </a>
-                    </li>
-
-                    <!-- Mobile login/register -->
-                    <li class="md:hidden border-t pt-3 mt-3 space-y-2">
-                        <button class="w-full text-red-600 border border-red-600 px-4 py-2 rounded-lg">
-                            Login
-                        </button>
-                        <button class="w-full bg-red-600 text-white px-4 py-2 rounded-lg">
-                            Daftar
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav> --}}
-    <nav class="bg-white border-b shadow-sm">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-3">
 
             <!-- Logo -->
@@ -160,26 +92,65 @@
                                     </a>
                                 @endif
                             </li>
+                        @else
+                            <li class="md:hidden border-t pt-3 mt-3 space-y-2">
+                                <a href="{{ url('/dashboard') }}"
+                                    class="block w-full text-center text-red-600 border border-red-600 px-4 py-2 rounded-lg">
+                                    Dashboard
+                                </a>
+                            </li>
                         @endguest
                     @endif
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> --}}
+
+    <nav id="navbar"
+    class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent">
+    <div class="max-w-screen-xl flex items-center justify-between mx-auto px-4 py-4">
+
+        <a href="/" class="text-xl font-bold text-white">
+            RedStay
+        </a>
+
+        <ul class="hidden md:flex space-x-8 font-medium">
+            <li><a href="#" class="text-white hover:text-red-300">Hotel</a></li>
+            <li><a href="#" class="text-white hover:text-red-300">Promo</a></li>
+            <li><a href="#" class="text-white hover:text-red-300">Bantuan</a></li>
+        </ul>
+
+        <div class="flex items-center gap-2">
+            <a href="{{ route('login') }}"
+                class="hidden md:inline-block text-white border border-white px-4 py-2 rounded-lg hover:bg-white/10 text-sm">
+                Login
+            </a>
+            <a href="{{ route('register') }}"
+                class="hidden md:inline-block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm">
+                Daftar
+            </a>
+        </div>
+    </div>
+</nav>
 
 
     <!-- Hero -->
-    <section class="bg-red-600 text-white">
-        <div class="max-w-7xl mx-auto px-4 py-16 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold mb-4">
+    <section class="relative min-h-[70vh]">
+        <div class="absolute inset-0">
+            <img loading="lazy" src="https://images.reddoorz.com/banner/id/153/KV_Reddoorz_Main_Visual_webmainbanner-1366x530-hi_ID__1_.jpg?w=1366" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 py-24 text-center text-white">
+            <h1 class="text-4xl font-bold mb-4">
                 Cari Hotel Murah & Nyaman
             </h1>
-            <p class="mb-8">
+            <p class="mb-10 text-gray-200">
                 Menginap nyaman dengan harga terbaik
             </p>
 
-            <!-- Search -->
-            <div class="bg-white rounded-xl p-4 grid grid-cols-1 md:grid-cols-4 gap-4 text-gray-700">
+            <!-- Search tetap sama -->
+            <div class="bg-white rounded-xl p-4 grid grid-cols-1 md:grid-cols-4 gap-4 text-gray-700 shadow-lg">
                 <input type="text" placeholder="Kota / Lokasi"
                     class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500">
 
@@ -240,7 +211,7 @@
             Rekomendasi Hotel
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             @foreach ($hotels as $hotel)
                 <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
                     <img src="{{ $hotel['image'] ?? asset('images/hotel-placeholder.jpg') }}"
@@ -323,6 +294,31 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+
+    <script>
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 80) {
+            navbar.classList.remove('bg-transparent');
+            navbar.classList.add('bg-white', 'shadow');
+
+            navbar.querySelectorAll('a').forEach(link => {
+                link.classList.remove('text-white');
+                link.classList.add('text-gray-700');
+            });
+        } else {
+            navbar.classList.add('bg-transparent');
+            navbar.classList.remove('bg-white', 'shadow');
+
+            navbar.querySelectorAll('a').forEach(link => {
+                link.classList.add('text-white');
+                link.classList.remove('text-gray-700');
+            });
+        }
+    });
+</script>
+
 </body>
 
 </html>
