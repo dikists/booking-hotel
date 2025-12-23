@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\SocialLoginController;
 
@@ -37,5 +38,11 @@ Route::middleware(['auth', 'verified', 'role:partner'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:customer'])->group(function () {
     Route::get('/booking', [BookingController::class, 'index']);
 });
+
+// detail hotel
+Route::get(
+    '/hotel/{country}/{province}/{city}/{district}/{hotel}',
+    [HotelController::class, 'show']
+)->name('hotel.show');
 
 require __DIR__ . '/auth.php';

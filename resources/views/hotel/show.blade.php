@@ -1,7 +1,8 @@
 <x-red-stay-layout>
 
     <!-- Navbar -->
-    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent navbar--transparent">
+    <nav id="navbar"
+        class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent navbar--transparent mb-8">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-3">
 
             <!-- Logo -->
@@ -94,142 +95,237 @@
         </div>
     </nav>
 
-    <!-- Hero -->
-    <section class="relative min-h-[70vh]">
+    @php
+        $hotel = [
+            'name' => 'RedStay Hotel Jakarta',
+            'city' => 'Jakarta Pusat',
+            'image' =>
+                'https://images.reddoorz.com/photos/123708/desktop_hotel_gallery_large_900x600_90f45642-d04a-4194-aa88-38c41d5847c2_2F_DDP9374.jpg?w=900',
+            'price' => 450000,
+            'promo_price' => 320000,
+            'is_promo' => true,
+            'url' => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
+        ];
+    @endphp
+
+    <!-- HERO -->
+    <section class="relative min-h-[65vh] flex items-end">
         <div class="absolute inset-0">
-            <img loading="lazy"
-                src="https://images.reddoorz.com/banner/id/153/KV_Reddoorz_Main_Visual_webmainbanner-1366x530-hi_ID__1_.jpg?w=1366"
-                class="w-full h-full object-cover">
+            <img src="{{ $hotel['image'] }}" class="w-full h-full object-cover" loading="lazy">
             <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30"></div>
         </div>
 
-        <div class="relative max-w-7xl mx-auto px-4 py-24 text-center text-white">
-            <h1 class="text-4xl font-bold mb-4">
-                Cari Hotel Murah & Nyaman
+        <div class="relative max-w-7xl mx-auto px-4 py-24 pb-12 w-full text-white">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">
+                {{ $hotel['name'] }}
             </h1>
-            <p class="mb-10 text-gray-200">
-                Menginap nyaman dengan harga terbaik
+
+            <p class="text-gray-200 mb-4">
+                📍 {{ $hotel['city'] }}
             </p>
 
-            <!-- Search tetap sama -->
-            <div class="bg-white rounded-xl p-4 grid grid-cols-1 md:grid-cols-4 gap-4 text-gray-700 shadow-lg">
-                <input type="text" placeholder="Kota / Lokasi"
-                    class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500">
-
-                <input type="date" class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500">
-
-                <input type="number" placeholder="Jumlah Tamu"
-                    class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500">
-
-                <button class="bg-red-600 text-white rounded-lg hover:bg-red-700">
-                    Cari Hotel
-                </button>
+            <!-- Highlight price -->
+            <div class="flex items-center gap-4">
+                @if ($hotel['is_promo'])
+                    <span class="line-through text-gray-300 text-sm">
+                        Rp {{ number_format($hotel['price'], 0, ',', '.') }}
+                    </span>
+                    <span class="text-2xl font-bold text-red-400">
+                        Rp {{ number_format($hotel['promo_price'], 0, ',', '.') }}
+                    </span>
+                    <span class="bg-red-600 text-white text-xs px-2 py-1 rounded">
+                        Promo
+                    </span>
+                @else
+                    <span class="text-2xl font-bold">
+                        Rp {{ number_format($hotel['price'], 0, ',', '.') }}
+                    </span>
+                @endif
             </div>
         </div>
     </section>
 
+    <!-- HOTEL INFO -->
+    <section class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
+
+            <div>
+                <p class="font-semibold">Check-in</p>
+                <p class="text-gray-500">14:00</p>
+            </div>
+
+            <div>
+                <p class="font-semibold">Check-out</p>
+                <p class="text-gray-500">12:00</p>
+            </div>
+
+            <div>
+                <p class="font-semibold">WiFi</p>
+                <p class="text-gray-500">Gratis</p>
+            </div>
+
+            <div>
+                <p class="font-semibold">Parkir</p>
+                <p class="text-gray-500">Tersedia</p>
+            </div>
+
+        </div>
+    </section>
+
+
+
     @php
-        $hotels = [
+        $rooms = [
             [
-                'name' => 'RedStay Hotel Jakarta',
-                'city' => 'Jakarta Pusat',
+                'name' => 'Superior Room',
                 'image' =>
                     'https://images.reddoorz.com/photos/123708/desktop_hotel_gallery_large_900x600_90f45642-d04a-4194-aa88-38c41d5847c2_2F_DDP9374.jpg?w=900',
                 'price' => 450000,
                 'promo_price' => 320000,
                 'is_promo' => true,
-                'url'   => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
+                'url' => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
             ],
             [
-                'name' => 'RedStay Hotel Bandung',
-                'city' => 'Bandung',
-                'image' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945',
-                'price' => 380000,
-                'promo_price' => 290000,
+                'name' => 'Superior Room',
+                'image' =>
+                    'https://images.reddoorz.com/photos/123708/desktop_hotel_gallery_large_900x600_90f45642-d04a-4194-aa88-38c41d5847c2_2F_DDP9374.jpg?w=900',
+                'price' => 450000,
+                'promo_price' => 300000,
                 'is_promo' => true,
-                'url'   => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
+                'url' => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
             ],
             [
-                'name' => 'RedStay Hotel Surabaya',
-                'city' => 'Surabaya',
-                'image' => 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa',
-                'price' => 420000,
+                'name' => 'Superior Room',
+                'image' =>
+                    'https://images.reddoorz.com/photos/123708/desktop_hotel_gallery_large_900x600_90f45642-d04a-4194-aa88-38c41d5847c2_2F_DDP9374.jpg?w=900',
+                'price' => 450000,
                 'promo_price' => null,
                 'is_promo' => false,
-                'url'   => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
-            ],
-            [
-                'name' => 'RedStay Hotel Medan',
-                'city' => 'Medan',
-                'image' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945',
-                'price' => 400000,
-                'promo_price' => null,
-                'is_promo' => false,
-                'url'   => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
+                'url' => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
             ],
         ];
     @endphp
 
 
-    <!-- Hotel List -->
-    <section class="max-w-7xl mx-auto px-4 py-12">
+    <!-- Room List -->
+    {{-- <section class="max-w-7xl mx-auto px-4 py-12">
         <h2 class="text-2xl font-bold mb-6">
-            Rekomendasi Hotel
+            Jenis Kamar yang Direkomendasikan
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            @foreach ($hotels as $hotel)
-            <a href="{{ $hotel['url'] }}">
-                <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
-                    <img src="{{ $hotel['image'] ?? asset('images/hotel-placeholder.jpg') }}"
-                        onerror="this.src='https://via.placeholder.com/600x400?text=Hotel'"
-                        class="rounded-t-xl w-full h-48 object-cover">
+            @foreach ($rooms as $room)
+                <a href="{{ $room['url'] }}">
+                    <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
+                        <img src="{{ $room['image'] ?? asset('images/hotel-placeholder.jpg') }}"
+                            onerror="this.src='https://via.placeholder.com/600x400?text=Hotel'"
+                            class="rounded-t-xl w-full h-48 object-cover">
 
 
-                    <div class="p-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="font-semibold text-lg">
-                                {{ $hotel['name'] }}
-                            </h3>
+                        <div class="p-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-semibold text-lg">
+                                    {{ $room['name'] }}
+                                </h3>
 
-                            @if ($hotel['is_promo'])
-                                <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded">
-                                    Promo
-                                </span>
-                            @endif
-                        </div>
-
-                        <p class="text-sm text-gray-500 mb-3">
-                            {{ $hotel['city'] }}
-                        </p>
-
-                        <div class="flex justify-between items-center">
-                            <div>
-                                @if ($hotel['promo_price'])
-                                    <p class="text-gray-400 line-through text-sm">
-                                        Rp {{ number_format($hotel['price'], 0, ',', '.') }}
-                                    </p>
-                                    <p class="text-red-600 font-bold text-lg">
-                                        Rp {{ number_format($hotel['promo_price'], 0, ',', '.') }}
-                                    </p>
-                                @else
-                                    <p class="text-red-600 font-bold text-lg">
-                                        Rp {{ number_format($hotel['price'], 0, ',', '.') }}
-                                    </p>
+                                @if ($room['is_promo'])
+                                    <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded">
+                                        Promo
+                                    </span>
                                 @endif
                             </div>
 
-                            <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
-                                Pesan
-                            </button>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    @if ($room['promo_price'])
+                                        <p class="text-gray-400 line-through text-sm">
+                                            Rp {{ number_format($room['price'], 0, ',', '.') }}
+                                        </p>
+                                        <p class="text-red-600 font-bold text-lg">
+                                            Rp {{ number_format($room['promo_price'], 0, ',', '.') }}
+                                        </p>
+                                    @else
+                                        <p class="text-red-600 font-bold text-lg">
+                                            Rp {{ number_format($room['price'], 0, ',', '.') }}
+                                        </p>
+                                    @endif
+                                </div>
+
+                                <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                                    Pesan
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
             @endforeach
         </div>
 
+    </section> --}}
+
+    <!-- ROOM LIST -->
+    <section class="max-w-7xl mx-auto px-4 py-12">
+        <h2 class="text-2xl font-bold mb-6">
+            Pilih Kamar
+        </h2>
+
+        <div class="space-y-6">
+            @foreach ($rooms as $room)
+                <div
+                    class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden flex flex-col md:flex-row">
+
+                    <!-- Image -->
+                    <img src="{{ $room['image'] }}" class="w-full md:w-64 h-48 object-cover"
+                        onerror="this.src='https://via.placeholder.com/600x400?text=Hotel'">
+
+                    <!-- Content -->
+                    <div class="flex-1 p-5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-semibold">
+                                    {{ $room['name'] }}
+                                </h3>
+
+                                @if ($room['is_promo'])
+                                    <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded">
+                                        Promo
+                                    </span>
+                                @endif
+                            </div>
+
+                            <p class="text-sm text-gray-500 mb-4">
+                                ✓ AC &nbsp; ✓ TV &nbsp; ✓ Kamar Mandi Dalam
+                            </p>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <div>
+                                @if ($room['promo_price'])
+                                    <p class="text-gray-400 line-through text-sm">
+                                        Rp {{ number_format($room['price'], 0, ',', '.') }}
+                                    </p>
+                                    <p class="text-red-600 font-bold text-xl">
+                                        Rp {{ number_format($room['promo_price'], 0, ',', '.') }}
+                                    </p>
+                                @else
+                                    <p class="text-red-600 font-bold text-xl">
+                                        Rp {{ number_format($room['price'], 0, ',', '.') }}
+                                    </p>
+                                @endif
+                                <p class="text-xs text-gray-500">/ malam</p>
+                            </div>
+
+                            <a href="{{ $room['url'] }}"
+                                class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition font-medium">
+                                Pesan Sekarang
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </section>
+
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300">
