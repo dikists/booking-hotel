@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Auth\SocialLoginController;
+use App\Http\Controllers\Public\HotelController as PublicHotel;
+use App\Http\Controllers\Partner\HotelController as PartnerHotel;
 
 Route::get('/', function () {
     return view('home');
@@ -13,7 +15,31 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/hotel', [HotelController::class, 'index'])->middleware(['auth', 'verified'])->name('hotel');
+// Route::get('/hotel', [PartnerHotel::class, 'index'])->middleware(['auth', 'verified'])->name('hotel');
+
+// PARTNER
+Route::middleware(['auth', 'verified', 'role:partner'])
+    ->prefix('partner')
+    ->name('partner.')
+    ->group(function () {
+
+        Route::get('/hotel', [PartnerHotel::class, 'index'])
+            ->name('hotel.index');
+
+        Route::get('/hotel/create', [PartnerHotel::class, 'create'])
+            ->name('hotel.create');
+
+        Route::post('/hotel', [PartnerHotel::class, 'store'])
+            ->name('hotel.store');
+
+        // edit
+        Route::get('/hotel/{property}/edit', [PartnerHotel::class, 'edit'])
+            ->name('hotel.edit');
+            
+        // hapus
+        Route::delete('/hotel/{property}', [PartnerHotel::class, 'destroy'])
+            ->name('hotel.destroy');
+    });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -44,7 +70,12 @@ Route::middleware(['auth', 'verified', 'role:customer'])->group(function () {
 // detail hotel
 Route::get(
     '/hotel/{country}/{province}/{city}/{district}/{hotel}',
-    [HotelController::class, 'show']
+    [PublicHotel::class, 'show']
 )->name('hotel.show');
+
+
+// get location
+Route::get('/get-cities/{province}', [LocationController::class, 'getCities']);
+Route::get('/get-districts/{city}', [LocationController::class, 'getDistricts']);
 
 require __DIR__ . '/auth.php';
