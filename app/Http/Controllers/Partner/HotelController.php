@@ -139,7 +139,7 @@ class HotelController extends Controller
             'province_id' => $request->province_id,
             'city_id'     => $request->city_id,
             'district_id' => $request->district_id,
-            'status'      => $request->status,
+            // 'status'      => $request->status,
         ]);
 
         // Tambah gallery baru (tidak hapus lama)
