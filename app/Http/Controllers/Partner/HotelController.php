@@ -8,23 +8,28 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PropertyGallery;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class HotelController extends Controller
 {
 
-    private function generateUniqueSlug($name)
+    private function generateUniqueSlug($name, $ignoreId = null)
     {
         $slug = Str::slug($name);
-        $originalSlug = $slug;
+        $original = $slug;
         $count = 1;
 
-        while (Property::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $count;
-            $count++;
+        while (
+            Property::where('slug', $slug)
+            ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
+            ->exists()
+        ) {
+            $slug = $original . '-' . $count++;
         }
 
         return $slug;
     }
+
 
     public function index()
     {
@@ -87,5 +92,68 @@ class HotelController extends Controller
         return redirect()
             ->route('partner.hotel.index')
             ->with('success', 'Hotel berhasil ditambahkan');
+    }
+
+    public function edit($id)
+    {
+        $property = Property::with(['province', 'city', 'district', 'galleries'])
+            ->where('partner_id', auth()->id())
+            ->findOrFail($id);
+
+        $provinces = Province::orderBy('province_name')->get();
+        $title = "Edit Hotel/Properti";
+
+        return view('partner.hotel.edit', compact('title', 'property', 'provinces'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $property = Property::where('partner_id', auth()->id())
+            ->findOrFail($id);
+
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'address'     => 'required',
+            'province_id' => 'required|exists:provinces,id',
+            'city_id'     => 'required|exists:cities,id',
+            'district_id' => 'required|exists:districts,id',
+            'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'gallery.*'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        // Update thumbnail jika diganti
+        if ($request->hasFile('thumbnail')) {
+            if ($property->thumbnail) {
+                Storage::disk('public')->delete($property->thumbnail);
+            }
+
+            $property->thumbnail = $request->file('thumbnail')
+                ->store('properties/thumbnails', 'public');
+        }
+
+        // Update data utama
+        $property->update([
+            'name'        => $request->name,
+            'slug'        => $this->generateUniqueSlug($request->name, $property->id),
+            'address'     => $request->address,
+            'province_id' => $request->province_id,
+            'city_id'     => $request->city_id,
+            'district_id' => $request->district_id,
+            'status'      => $request->status,
+        ]);
+
+        // Tambah gallery baru (tidak hapus lama)
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $image) {
+                $path = $image->store('properties/gallery', 'public');
+                $property->galleries()->create([
+                    'image' => $path
+                ]);
+            }
+        }
+
+        return redirect()
+            ->route('partner.hotel.index')
+            ->with('success', 'Properti berhasil diperbarui');
     }
 }

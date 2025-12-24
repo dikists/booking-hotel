@@ -35,10 +35,14 @@ Route::middleware(['auth', 'verified', 'role:partner'])
         // edit
         Route::get('/hotel/{property}/edit', [PartnerHotel::class, 'edit'])
             ->name('hotel.edit');
-            
+
         // hapus
         Route::delete('/hotel/{property}', [PartnerHotel::class, 'destroy'])
             ->name('hotel.destroy');
+
+        // update
+        Route::put('/hotel/{property}', [PartnerHotel::class, 'update'])
+            ->name('hotel.update');
     });
 
 Route::middleware('auth')->group(function () {
