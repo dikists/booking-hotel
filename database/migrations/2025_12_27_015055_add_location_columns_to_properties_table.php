@@ -17,19 +17,19 @@ return new class extends Migration
             $table->foreignId('province_id')
                 ->nullable()
                 ->after('address')
-                ->constrained('provinces')
+                ->constrained('reg_provinces')
                 ->restrictOnDelete();
 
-            $table->foreignId('city_id')
+            $table->foreignId('regency_id')
                 ->nullable()
                 ->after('province_id')
-                ->constrained('cities')
+                ->constrained('reg_regencies')
                 ->restrictOnDelete();
 
             $table->foreignId('district_id')
                 ->nullable()
-                ->after('city_id')
-                ->constrained('districts')
+                ->after('regency_id')
+                ->constrained('reg_districts')
                 ->nullOnDelete();
 
             // koordinat (penting untuk nearby search)
@@ -51,12 +51,12 @@ return new class extends Migration
         Schema::table('properties', function (Blueprint $table) {
 
             $table->dropForeign(['province_id']);
-            $table->dropForeign(['city_id']);
+            $table->dropForeign(['regency_id']);
             $table->dropForeign(['district_id']);
 
             $table->dropColumn([
                 'province_id',
-                'city_id',
+                'regency_id',
                 'district_id',
                 'latitude',
                 'longitude',

@@ -11,14 +11,14 @@ class LocationController extends Controller
     public function getCities($provinceId)
     {
         return City::where('province_id', $provinceId)
-            ->orderBy('city_name')
-            ->get(['id', 'city_name']);
+            ->orderBy('name')
+            ->get(['id', 'name']);
     }
 
     public function getDistricts($cityId)
     {
-        return District::where('city_id', $cityId)
-            ->orderBy('district_name')
-            ->get(['id', 'district_name']);
+        return District::where('regency_id', $cityId)
+            ->orderBy('name')
+            ->get(['id', 'name']);
     }
 }

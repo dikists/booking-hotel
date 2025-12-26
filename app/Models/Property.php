@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Property extends Model
 {
-     protected $fillable = [
+    protected $fillable = [
         'partner_id',
         'name',
         'slug',
         'address',
         'province_id',
-        'city_id',
+        'regency_id',
         'district_id',
         'latitude',
         'longitude',
@@ -32,16 +32,16 @@ class Property extends Model
 
     public function province()
     {
-        return $this->belongsTo(Province::class);
+        return $this->belongsTo(Province::class, 'province_id', 'id');
     }
 
     public function city()
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(City::class, 'regency_id', 'id');
     }
 
     public function district()
     {
-        return $this->belongsTo(District::class);
+        return $this->belongsTo(District::class, 'district_id', 'id');
     }
 }

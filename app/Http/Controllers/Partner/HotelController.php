@@ -43,7 +43,7 @@ class HotelController extends Controller
     public function create()
     {
         $title = "Tambah Hotel/Properti ";
-        $provinces = Province::orderBy('province_name')->get();
+        $provinces = Province::orderBy('name')->get();
         return view('partner.hotel.create', compact('title', 'provinces'));
     }
 
@@ -52,9 +52,9 @@ class HotelController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string',
-            'province_id' => 'required|exists:provinces,id',
-            'city_id' => 'required|exists:cities,id',
-            'district_id' => 'required|exists:districts,id',
+            'province_id' => 'required|exists:reg_provinces,id',
+            'regency_id' => 'required|exists:reg_regencies,id',
+            'district_id' => 'required|exists:reg_districts,id',
             'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'gallery.*'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -71,7 +71,7 @@ class HotelController extends Controller
             'slug'       => $this->generateUniqueSlug($request->name),
             'address'    => $validated['address'],
             'province_id' => $validated['province_id'],
-            'city_id'     => $validated['city_id'],
+            'regency_id'     => $validated['regency_id'],
             'district_id' => $validated['district_id'],
             'status'     => 1,
             'thumbnail'  => $thumbnailPath,
@@ -100,7 +100,7 @@ class HotelController extends Controller
             ->where('partner_id', auth()->id())
             ->findOrFail($id);
 
-        $provinces = Province::orderBy('province_name')->get();
+        $provinces = Province::orderBy('name')->get();
         $title = "Edit Hotel/Properti";
 
         return view('partner.hotel.edit', compact('title', 'property', 'provinces'));
@@ -114,9 +114,9 @@ class HotelController extends Controller
         $request->validate([
             'name'        => 'required|string|max:255',
             'address'     => 'required',
-            'province_id' => 'required|exists:provinces,id',
-            'city_id'     => 'required|exists:cities,id',
-            'district_id' => 'required|exists:districts,id',
+            'province_id' => 'required|exists:reg_provinces,id',
+            'regency_id' => 'required|exists:reg_regencies,id',
+            'district_id' => 'required|exists:reg_districts,id',
             'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'gallery.*'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -137,7 +137,7 @@ class HotelController extends Controller
             'slug'        => $this->generateUniqueSlug($request->name, $property->id),
             'address'     => $request->address,
             'province_id' => $request->province_id,
-            'city_id'     => $request->city_id,
+            'regency_id'     => $request->regency_id,
             'district_id' => $request->district_id,
             // 'status'      => $request->status,
         ]);
@@ -155,5 +155,28 @@ class HotelController extends Controller
         return redirect()
             ->route('partner.hotel.index')
             ->with('success', 'Properti berhasil diperbarui');
+    }
+
+    public function destroy($id)
+    {
+        $property = Property::where('partner_id', auth()->id())
+            ->findOrFail($id);
+
+        // Hapus thumbnail
+        if ($property->thumbnail) {
+            Storage::disk('public')->delete($property->thumbnail);
+        }
+
+        // Hapus gallery
+        foreach ($property->galleries as $gallery) {
+            Storage::disk('public')->delete($gallery->image);
+            $gallery->delete();
+        }
+
+        $property->delete();
+
+        return redirect()
+            ->route('partner.hotel.index')
+            ->with('success', 'Properti berhasil dihapus');
     }
 }

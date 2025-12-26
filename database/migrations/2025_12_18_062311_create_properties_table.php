@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('partner_id')->constrained('users');
             $table->string('name');
             $table->text('address');
-            $table->string('city');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

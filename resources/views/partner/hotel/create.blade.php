@@ -29,10 +29,10 @@
                         <label for="province" class="block mb-2 text-sm font-medium text-gray-900">Provinsi</label>
                         <select id="province" name="province_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5">
-                            <option selected>Pilih Provinsi</option>
+                            <option value="">Pilih Provinsi</option>
                             @foreach ($provinces as $province)
                                 <option value="{{ $province->id }}">
-                                    {{ $province->province_name }}
+                                    {{ $province->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -44,11 +44,11 @@
                     {{-- Kota --}}
                     <div class="mb-4">
                         <label for="city" class="block mb-2 text-sm font-medium text-gray-900">Kota</label>
-                        <select id="city" name="city_id"
+                        <select id="city" name="regency_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5">
-                            <option selected>Pilih Kota</option>
+                            <option value="">Pilih Kota</option>
                         </select>
-                        @error('city_id')
+                        @error('regency_id')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
@@ -58,7 +58,7 @@
                         <label for="district" class="block mb-2 text-sm font-medium text-gray-900">Kecamatan</label>
                         <select id="district" name="district_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5">
-                            <option selected>Pilih Kecamatan</option>
+                            <option value="">Pilih Kecamatan</option>
                         </select>
                         @error('district_id')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -117,7 +117,7 @@
     </div>
 
     @push('scripts')
-        <script>
+        {{-- <script>
             document.getElementById('province').addEventListener('change', function() {
                 let provinceId = this.value;
                 let citySelect = document.getElementById('city');
@@ -136,7 +136,7 @@
                         citySelect.innerHTML = '<option value="">Pilih Kota</option>';
                         data.forEach(city => {
                             citySelect.innerHTML +=
-                                `<option value="${city.id}">${city.city_name}</option>`;
+                                `<option value="${city.id}">${city.name}</option>`;
                         });
                         citySelect.disabled = false;
                     });
@@ -157,10 +157,95 @@
                         districtSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
                         data.forEach(district => {
                             districtSelect.innerHTML +=
-                                `<option value="${district.id}">${district.district_name}</option>`;
+                                `<option value="${district.id}">${district.name}</option>`;
                         });
                         districtSelect.disabled = false;
                     });
+            });
+        </script> --}}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const provinceSelect = new TomSelect("#province", {
+                    placeholder: "Pilih Provinsi",
+                    allowEmptyOption: true
+                });
+    
+                const citySelect = new TomSelect("#city", {
+                    placeholder: "Pilih Kota",
+                    allowEmptyOption: true
+                });
+    
+                const districtSelect = new TomSelect("#district", {
+                    placeholder: "Pilih Kecamatan",
+                    allowEmptyOption: true
+                });
+    
+                // Provinsi → Kota
+                provinceSelect.on('change', function(provinceId) {
+                    citySelect.clear();
+                    citySelect.clearOptions();
+                    citySelect.addOption({
+                        value: "",
+                        text: "Loading..."
+                    });
+                    citySelect.refreshOptions(false);
+    
+                    districtSelect.clear();
+                    districtSelect.clearOptions();
+    
+                    if (!provinceId) return;
+    
+                    fetch(`/get-cities/${provinceId}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            citySelect.clearOptions();
+                            citySelect.addOption({
+                                value: "",
+                                text: "Pilih Kota"
+                            });
+    
+                            data.forEach(city => {
+                                citySelect.addOption({
+                                    value: city.id,
+                                    text: city.name
+                                });
+                            });
+    
+                            citySelect.refreshOptions(false);
+                        });
+                });
+    
+                // Kota → Kecamatan
+                citySelect.on('change', function(cityId) {
+                    districtSelect.clear();
+                    districtSelect.clearOptions();
+                    districtSelect.addOption({
+                        value: "",
+                        text: "Loading..."
+                    });
+                    districtSelect.refreshOptions(false);
+    
+                    if (!cityId) return;
+    
+                    fetch(`/get-districts/${cityId}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            districtSelect.clearOptions();
+                            districtSelect.addOption({
+                                value: "",
+                                text: "Pilih Kecamatan"
+                            });
+    
+                            data.forEach(district => {
+                                districtSelect.addOption({
+                                    value: district.id,
+                                    text: district.name
+                                });
+                            });
+    
+                            districtSelect.refreshOptions(false);
+                        });
+                });
             });
         </script>
     @endpush

@@ -65,11 +65,11 @@
                                     {{-- Wilayah --}}
                                     <td class="px-4 py-3">
                                         <div class="text-sm">
-                                            {{ $property->district->district_name ?? '-' }},
-                                            {{ $property->city->city_name ?? '-' }}
+                                            {{ $property->district->name ?? '-' }},
+                                            {{ $property->city->name ?? '-' }}
                                         </div>
                                         <div class="text-xs text-gray-400">
-                                            {{ $property->province->province_name ?? '-' }}
+                                            {{ $property->province->name ?? '-' }}
                                         </div>
                                     </td>
 

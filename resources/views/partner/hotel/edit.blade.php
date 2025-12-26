@@ -31,13 +31,13 @@
                         <label for="province" class="block mb-2 text-sm font-medium text-gray-900">Provinsi</label>
                         <select id="province" name="province_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5">
-                            <option selected>Pilih Provinsi</option>
+                            <option value="">Pilih Provinsi</option>
                             @foreach ($provinces as $province)
                                 @php
                                     $selected = $province->id == $property->province_id ? 'selected' : '';
                                 @endphp
                                 <option value="{{ $province->id }}" {{ $selected }}>
-                                    {{ $province->province_name }}
+                                    {{ $province->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -49,11 +49,11 @@
                     {{-- Kota --}}
                     <div class="mb-4">
                         <label for="city" class="block mb-2 text-sm font-medium text-gray-900">Kota</label>
-                        <select id="city" name="city_id"
+                        <select id="city" name="regency_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5">
-                            <option selected>Pilih Kota</option>
+                            <option value="">Pilih Kota</option>
                         </select>
-                        @error('city_id')
+                        @error('regency_id')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
@@ -63,7 +63,7 @@
                         <label for="district" class="block mb-2 text-sm font-medium text-gray-900">Kecamatan</label>
                         <select id="district" name="district_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5">
-                            <option selected>Pilih Kecamatan</option>
+                            <option value="">Pilih Kecamatan</option>
                         </select>
                         @error('district_id')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -128,9 +128,9 @@
     </div>
 
     @push('scripts')
-        <script>
+        {{-- <script>
             const oldProvince = {{ $property->province_id }};
-            const oldCity = {{ $property->city_id }};
+            const oldCity = {{ $property->regency_id }};
             const oldDistrict = {{ $property->district_id }};
 
             document.addEventListener('DOMContentLoaded', async () => {
@@ -153,7 +153,7 @@
                         data.forEach(city => {
                             let selected = city.id == selectedCity ? 'selected' : '';
                             citySelect.innerHTML +=
-                                `<option value="${city.id}" ${selected}>${city.city_name}</option>`;
+                                `<option value="${city.id}" ${selected}>${city.name}</option>`;
                         });
                     });
             }
@@ -168,10 +168,107 @@
                         data.forEach(district => {
                             let selected = district.id == selectedDistrict ? 'selected' : '';
                             districtSelect.innerHTML +=
-                                `<option value="${district.id}" ${selected}>${district.district_name}</option>`;
+                                `<option value="${district.id}" ${selected}>${district.name}</option>`;
                         });
                     });
             }
+        </script> --}}
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const oldProvince = {{ $property->province_id ?? 'null' }};
+                const oldCity = {{ $property->regency_id ?? 'null' }};
+                const oldDistrict = {{ $property->district_id ?? 'null' }};
+
+                const provinceSelect = new TomSelect("#province", {
+                    placeholder: "Pilih Provinsi",
+                    allowEmptyOption: true
+                });
+
+                const citySelect = new TomSelect("#city", {
+                    placeholder: "Pilih Kota",
+                    allowEmptyOption: true
+                });
+
+                const districtSelect = new TomSelect("#district", {
+                    placeholder: "Pilih Kecamatan",
+                    allowEmptyOption: true
+                });
+
+                // Set provinsi lama
+                if (oldProvince) {
+                    provinceSelect.setValue(oldProvince);
+                    await loadCities(oldProvince, oldCity);
+                }
+
+                // Set kota & kecamatan lama
+                if (oldCity) {
+                    citySelect.setValue(oldCity);
+                    await loadDistricts(oldCity, oldDistrict);
+                }
+
+                if (oldDistrict) {
+                    districtSelect.setValue(oldDistrict);
+                }
+
+                // EVENT CHANGE
+                provinceSelect.on('change', async (provinceId) => {
+                    citySelect.clear();
+                    citySelect.clearOptions();
+                    districtSelect.clear();
+                    districtSelect.clearOptions();
+
+                    if (!provinceId) return;
+                    await loadCities(provinceId);
+                });
+
+                citySelect.on('change', async (cityId) => {
+                    districtSelect.clear();
+                    districtSelect.clearOptions();
+
+                    if (!cityId) return;
+                    await loadDistricts(cityId);
+                });
+
+                // ===== FUNCTIONS =====
+                async function loadCities(provinceId, selectedCity = null) {
+                    const res = await fetch(`/get-cities/${provinceId}`);
+                    const data = await res.json();
+
+                    citySelect.clearOptions();
+                    data.forEach(city => {
+                        citySelect.addOption({
+                            value: city.id,
+                            text: city.name
+                        });
+                    });
+
+                    citySelect.refreshOptions(false);
+
+                    if (selectedCity) {
+                        citySelect.setValue(selectedCity);
+                    }
+                }
+
+                async function loadDistricts(cityId, selectedDistrict = null) {
+                    const res = await fetch(`/get-districts/${cityId}`);
+                    const data = await res.json();
+
+                    districtSelect.clearOptions();
+                    data.forEach(district => {
+                        districtSelect.addOption({
+                            value: district.id,
+                            text: district.name
+                        });
+                    });
+
+                    districtSelect.refreshOptions(false);
+
+                    if (selectedDistrict) {
+                        districtSelect.setValue(selectedDistrict);
+                    }
+                }
+
+            });
         </script>
     @endpush
 </x-app-layout>

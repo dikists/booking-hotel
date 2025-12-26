@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provinces', function (Blueprint $table) {
-            $table->id();
-            $table->string('province_name', 100);
-            $table->timestamps();
+        Schema::table('properties', function (Blueprint $table) {
+            $table->string('slug')
+                ->after('name')
+                ->unique();
         });
     }
 
@@ -23,6 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('provinces');
+        Schema::table('properties', function (Blueprint $table) {
+            $table->dropUnique(['slug']);
+            $table->dropColumn('slug');
+        });
     }
 };

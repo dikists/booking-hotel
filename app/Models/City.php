@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-    protected $table = 'cities';
-    protected $fillable = ['city_name', 'slug', 'city_type', 'province_id'];
- 
+    protected $table = 'reg_regencies';
+    protected $fillable = ['name', 'province_id'];
+
     public function province()
     {
-        return $this->belongsTo(Province::class);
+        return $this->belongsTo(Province::class, 'province_id', 'id');
     }
 
     public function districts()
     {
-        return $this->hasMany(District::class);
+        return $this->hasMany(District::class, 'regency_id', 'id');
     }
 }

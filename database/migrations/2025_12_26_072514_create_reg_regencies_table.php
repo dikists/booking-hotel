@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('properties', function (Blueprint $table) {
-            $table->dropColumn('city');
+        Schema::create('reg_regencies', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('province_id')
+                ->constrained('reg_provinces')
+                ->cascadeOnDelete();
+            $table->string('name');
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('properties', function (Blueprint $table) {
-            $table->string('city')->nullable();
-        });
+        Schema::dropIfExists('reg_regencies');
     }
 };

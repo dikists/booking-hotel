@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-            ProvinceSeeder::class,
-            CitySeeder::class,
-            DistrictSeeder::class,
+            RegProvinceSeeder::class,
+            RegRegencySeeder::class,
+            RegDistrictSeeder::class,
         ]);
     }
 }

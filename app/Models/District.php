@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class District extends Model
 {
-    protected $table = 'districts';
-    protected $fillable = ['city_id', 'district_name', 'slug'];
+    protected $table = 'reg_districts';
+    protected $fillable = ['regency_id', 'name'];
 
     public function city()
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(City::class, 'regency_id', 'id');
     }
 }

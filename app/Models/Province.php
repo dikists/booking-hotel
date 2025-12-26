@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Province extends Model
 {
-    protected $fillable = ['province_name'];
-    protected $table = 'provinces';
+    protected $fillable = ['name'];
+    protected $table = 'reg_provinces';
 
     public function cities()
     {
