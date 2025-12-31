@@ -6,7 +6,8 @@
 
             <!-- Logo -->
             <a href="/" class="text-xl font-bold text-red-600">
-                RedStay
+                <x-application-logo class="w-16 h-12" />
+                {{-- RedStay --}}
             </a>
 
             <!-- Right section -->
@@ -128,7 +129,7 @@
         </div>
     </section>
 
-    @php
+    {{-- @php
         $hotels = [
             [
                 'name' => 'RedStay Hotel Jakarta',
@@ -168,7 +169,7 @@
                 'url'   => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
             ],
         ];
-    @endphp
+    @endphp --}}
 
 
     <!-- Hotel List -->

@@ -4,12 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Auth\SocialLoginController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Public\HotelController as PublicHotel;
 use App\Http\Controllers\Partner\HotelController as PartnerHotel;
+use App\Http\Controllers\Partner\RoomController as PartnerRoom;
+use App\Http\Controllers\Partner\RoomPromoController as PartnerRoomPromo;
+use App\Http\Controllers\Partner\RoomGalleryController as PartnerRoomGallery;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -43,6 +45,72 @@ Route::middleware(['auth', 'verified', 'role:partner'])
         // update
         Route::put('/hotel/{property}', [PartnerHotel::class, 'update'])
             ->name('hotel.update');
+
+        // rooms
+        Route::get('/hotel/{property}/rooms', [PartnerRoom::class, 'index'])
+            ->name('hotel.rooms.index');
+
+        // rooms create
+        Route::get('/hotel/{property}/rooms/create', [PartnerRoom::class, 'create'])
+            ->name('hotels.rooms.create');
+
+        // rooms store
+        Route::post('/hotel/{property}/rooms', [PartnerRoom::class, 'store'])
+            ->name('hotels.rooms.store');
+
+        // rooms edit
+        Route::get('/hotel/{property}/rooms/{room}/edit', [PartnerRoom::class, 'edit'])
+            ->name('hotels.rooms.edit');
+
+        // rooms update
+        Route::put('/hotel/{property}/rooms/{room}', [PartnerRoom::class, 'update'])
+            ->name('hotels.rooms.update');
+
+        // // rooms destroy
+        // Route::delete('/hotel/{property}/rooms/{room}', [PartnerRoom::class, 'destroy'])
+        //     ->name('hotels.rooms.destroy');
+
+        // room price
+        Route::get('/hotel/{property}/rooms/{room}/price', [PartnerRoom::class, 'price'])
+            ->name('hotels.rooms.prices.index');
+
+        // room promo
+        Route::get(
+            '/hotel/{property}/rooms/{room}/promos',
+            [PartnerRoomPromo::class, 'index']
+        )->name('hotels.rooms.promos.index');
+
+        Route::get(
+            '/hotel/{property}/rooms/{room}/promos/create',
+            [PartnerRoomPromo::class, 'create']
+        )->name('hotels.rooms.promos.create');
+
+        Route::post(
+            '/hotel/{property}/rooms/{room}/promos',
+            [PartnerRoomPromo::class, 'store']
+        )->name('hotels.rooms.promos.store');
+
+        // room gallery
+        Route::get(
+            '/hotels/{property}/rooms/{room}/gallery',
+            [PartnerRoomGallery::class, 'index']
+        )->name('hotels.rooms.gallery.index');
+
+        Route::post(
+            '/hotels/{property}/rooms/{room}/gallery',
+            [PartnerRoomGallery::class, 'store']
+        )->name('hotels.rooms.gallery.store');
+
+        // set foto utama kamar
+        Route::patch(
+            '/hotels/{property}/rooms/{room}/gallery/{gallery}/primary',
+            [PartnerRoomGallery::class, 'setPrimary']
+        )->name('hotels.rooms.gallery.primary');
+        // hapus foto kamar
+        Route::delete(
+            '/hotels/{property}/rooms/{room}/gallery/{gallery}',
+            [PartnerRoomGallery::class, 'destroy']
+        )->name('hotels.rooms.gallery.destroy');
     });
 
 Route::middleware('auth')->group(function () {

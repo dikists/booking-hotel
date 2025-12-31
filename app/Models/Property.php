@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
+use App\Services\RoomPriceService;
 use Illuminate\Database\Eloquent\Model;
 
 class Property extends Model
@@ -25,6 +27,34 @@ class Property extends Model
     //     return $this->belongsTo(Partner::class);
     // }
 
+    protected $appends = ['lowest_price'];
+
+    public function getLowestPriceAttribute()
+    {
+        // Ambil room yang available saja
+        $rooms = $this->rooms->where('status', 'available');
+
+        if ($rooms->isEmpty()) {
+            return null;
+        }
+
+        return $rooms->map(function ($room) {
+            return RoomPriceService::getPrice($room);
+        })->min();
+    }
+
+    public function getPublicUrlAttribute()
+    {
+        return route('hotel.show', [
+            'country'  => 'indonesia',
+            'province' => Str::slug($this->province->name),
+            'city'     => Str::slug($this->city->name),
+            'district' => Str::slug($this->district->name),
+            'hotel'    => $this->slug,
+        ]);
+    }
+
+
     public function galleries()
     {
         return $this->hasMany(PropertyGallery::class);
@@ -43,5 +73,15 @@ class Property extends Model
     public function district()
     {
         return $this->belongsTo(District::class, 'district_id', 'id');
+    }
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+
+    public function promotions()
+    {
+        return $this->hasMany(Promotion::class);
     }
 }

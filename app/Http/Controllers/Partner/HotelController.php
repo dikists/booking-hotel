@@ -34,7 +34,7 @@ class HotelController extends Controller
     public function index()
     {
         $title = "Daftar Hotel/Properti ";
-        $properties = Property::with(['province', 'city', 'district'])
+        $properties = Property::with(['province', 'city', 'district', 'rooms'])
             ->where('partner_id', auth()->id())
             ->get();
         return view('partner.hotel.index', compact('title', 'properties'));
