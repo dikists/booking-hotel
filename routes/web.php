@@ -1,21 +1,24 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BookingInvoiceController;
 use App\Http\Controllers\Auth\SocialLoginController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Partner\RoomController as PartnerRoom;
 use App\Http\Controllers\Public\HotelController as PublicHotel;
 use App\Http\Controllers\Partner\HotelController as PartnerHotel;
-use App\Http\Controllers\Partner\RoomController as PartnerRoom;
+use App\Http\Controllers\Public\BookingController as PublicBooking;
+use App\Http\Controllers\Public\PaymentController as PublicPayment;
 use App\Http\Controllers\Partner\RoomPromoController as PartnerRoomPromo;
 use App\Http\Controllers\Partner\RoomGalleryController as PartnerRoomGallery;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::get('/hotel', [PartnerHotel::class, 'index'])->middleware(['auth', 'verified'])->name('hotel');
 
@@ -139,15 +142,55 @@ Route::middleware(['auth', 'verified', 'role:customer'])->group(function () {
     Route::get('/booking', [BookingController::class, 'index']);
 });
 
+// Public Routes
+
 // detail hotel
 Route::get(
     '/hotel/{country}/{province}/{city}/{district}/{hotel}',
     [PublicHotel::class, 'show']
 )->name('hotel.show');
 
+// Booking create
+Route::get('/booking/index', [PublicBooking::class, 'index'])
+    ->name('booking.index')
+    ->middleware('auth');
+
+Route::get('/booking/create', [PublicBooking::class, 'create'])
+    ->name('booking.create')
+    ->middleware('auth');
+
+Route::post('/booking', [PublicBooking::class, 'store'])
+    ->name('booking.store')
+    ->middleware('auth');
+
+// bookiing show
+Route::get('/booking/{booking}', [PublicBooking::class, 'show'])
+    ->name('booking.show')
+    ->middleware('auth');
+
+Route::get('/payment/{booking}', [PublicPayment::class, 'create'])
+    ->name('payment.create')
+    ->middleware('auth');
+
+Route::post('/payment/{booking}/pay', [PublicPayment::class, 'pay'])
+    ->name('payment.pay')
+    ->middleware('auth');
+
+Route::post('/midtrans/callback', [MidtransController::class, 'callback'])->name('midtrans.callback');
+
+Route::get('/payment/{booking}/finish', [PublicPayment::class, 'finish'])
+    ->name('payment.finish')
+    ->middleware('auth');
+
 
 // get location
 Route::get('/get-cities/{province}', [LocationController::class, 'getCities']);
 Route::get('/get-districts/{city}', [LocationController::class, 'getDistricts']);
+
+// pdf
+Route::get('/booking/{booking}/invoice', [BookingInvoiceController::class, 'download'])
+    ->name('booking.invoice')
+    ->middleware('auth');
+
 
 require __DIR__ . '/auth.php';

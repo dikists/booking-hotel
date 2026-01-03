@@ -137,7 +137,7 @@
 
                 {{-- Back --}}
                 <div class="mt-6">
-                    <a href="{{ route('partner.hotels.rooms.index', $property->id) }}"
+                    <a href="{{ route('partner.hotel.rooms.index', $property->id) }}"
                         class="text-sm text-gray-600 hover:underline">
                         ← Kembali ke daftar room
                     </a>

@@ -200,11 +200,55 @@
         </div>
     </section>
 
+    @php
+        $hasDate = request('checkin') && request('checkout');
+    @endphp
+
     <!-- ROOM LIST -->
     <section class="max-w-7xl mx-auto px-4 py-12">
         <h2 class="text-2xl font-bold mb-6">
             Pilih Kamar
         </h2>
+
+        <form method="GET" action=""
+            class="bg-white p-4 rounded-xl shadow mb-8 grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+
+            {{-- Date Range --}}
+            <div class="sm:col-span-2">
+                <label class="block mb-1 text-sm font-medium text-gray-700">
+                    Tanggal Menginap
+                </label>
+
+                <div date-rangepicker datepicker-min-date="{{ now()->format('Y-m-d') }}" datepicker-format="yyyy-mm-dd"
+                    datepicker-autohide class="flex items-center gap-2">
+
+                    <input name="checkin" type="text" value="{{ request('checkin') }}" placeholder="Check-in"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                       focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
+                        required>
+
+                    <span class="text-gray-500">→</span>
+
+                    <input name="checkout" type="text" value="{{ request('checkout') }}" placeholder="Check-out"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                       focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
+                        required>
+                </div>
+            </div>
+
+            {{-- Button --}}
+            <div>
+                <button class="w-full bg-red-600 text-white px-6 py-3 rounded-lg disabled:opacity-50"
+                    :disabled="!checkin || !checkout">
+                    Cari Kamar
+                </button>
+
+            </div>
+
+        </form>
+
+
+
 
         <div class="space-y-6">
             @foreach ($rooms as $room)
@@ -253,8 +297,16 @@
                                 <p class="text-xs text-gray-500">/ malam</p>
                             </div>
 
-                            <a href="#booking"
-                                class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition font-medium">
+                            <a href="{{ $hasDate
+                                ? route('booking.create', [
+                                    'room_id' => $room['id'],
+                                    'checkin' => request('checkin'),
+                                    'checkout' => request('checkout'),
+                                ])
+                                : '#' }}"
+                                class="px-6 py-3 rounded-lg font-medium transition
+                               {{ $hasDate ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-gray-300 text-gray-500 cursor-not-allowed' }}"
+                                {{ $hasDate ? '' : 'onclick=return false' }}>
                                 Pesan Sekarang
                             </a>
                         </div>

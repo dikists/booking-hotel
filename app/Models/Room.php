@@ -59,4 +59,9 @@ class Room extends Model
         return $this->hasOne(RoomGallery::class)
             ->where('is_primary', true);
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

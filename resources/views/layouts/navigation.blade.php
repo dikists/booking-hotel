@@ -15,11 +15,35 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    {{-- link daftar hotel/properti --}}
-                    {{-- link daftar hotel/properti --}}
-                    <x-nav-link :href="route('partner.hotel.index')" :active="request()->routeIs('partner.hotel.*')">
-                        {{ __('Daftar Hotel/Properti') }}
-                    </x-nav-link>
+
+                    {{-- ================= CUSTOMER ================= --}}
+                    @if (auth()->user()->hasRole('customer'))
+                        <x-nav-link :href="route('booking.index')" :active="request()->routeIs('booking.*')">
+                            {{ __('Booking Saya') }}
+                        </x-nav-link>
+                    @endif
+
+                    {{-- ================= PARTNER ================= --}}
+                    @if (auth()->user()->hasRole('partner'))
+                        <x-nav-link :href="route('partner.hotel.index')" :active="request()->routeIs('partner.hotel.*')">
+                            {{ __('Daftar Hotel/Properti') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('partner.booking.index')" :active="request()->routeIs('partner.booking.*')">
+                            {{ __('Booking Masuk') }}
+                        </x-nav-link>
+                    @endif
+
+                    {{-- ================= ADMIN ================= --}}
+                    @if (auth()->user()->hasRole('admin'))
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            {{ __('Manajemen User') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
+                            {{ __('Laporan') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -83,6 +107,31 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            {{-- CUSTOMER --}}
+            @if (auth()->user()->hasRole('customer'))
+                <x-responsive-nav-link :href="route('booking.index')" :active="request()->routeIs('booking.*')">
+                    {{ __('Booking Saya') }}
+                </x-responsive-nav-link>
+            @endif
+
+            {{-- PARTNER --}}
+            @if (auth()->user()->hasRole('partner'))
+                <x-responsive-nav-link :href="route('partner.hotel.index')" :active="request()->routeIs('partner.hotel.*')">
+                    {{ __('Daftar Hotel / Properti') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('partner.booking.index')" :active="request()->routeIs('partner.booking.*')">
+                    {{ __('Booking Masuk') }}
+                </x-responsive-nav-link>
+            @endif
+
+            {{-- ADMIN --}}
+            @if (auth()->user()->hasRole('admin'))
+                <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                    {{ __('Manajemen User') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
