@@ -112,20 +112,54 @@
                 Menginap nyaman dengan harga terbaik
             </p>
 
-            <!-- Search tetap sama -->
-            <div class="bg-white rounded-xl p-4 grid grid-cols-1 md:grid-cols-4 gap-4 text-gray-700 shadow-lg">
-                <input type="text" placeholder="Kota / Lokasi"
-                    class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500">
+            <form method="GET" action="{{ route('home') }}"
+                class="bg-white rounded-xl p-4 grid grid-cols-1 md:grid-cols-5 gap-4 text-gray-700 shadow-lg">
 
-                <input type="date" class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500">
+                {{-- Kota --}}
+                <input list="city-list" name="kota" value="{{ request('kota') }}" placeholder="Kota / Lokasi"
+                    class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500 w-full">
 
-                <input type="number" placeholder="Jumlah Tamu"
-                    class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500">
+                <datalist id="city-list">
+                    @foreach ($cities as $city)
+                        <option value="{{ $city }}"></option>
+                    @endforeach
+                </datalist>
 
-                <button class="bg-red-600 text-white rounded-lg hover:bg-red-700">
+                {{-- Date Range --}}
+                <div date-rangepicker datepicker-min-date="{{ now()->format('Y-m-d') }}" datepicker-format="yyyy-mm-dd"
+                    datepicker-autohide class="flex items-center gap-2 border rounded-lg p-2 bg-gray-50">
+
+                    <input name="checkin" type="text" value="{{ request('checkin') }}" placeholder="Check-in"
+                        class="bg-transparent border-0 focus:ring-0 focus:outline-none w-full text-sm" required>
+
+                    <span class="text-gray-400">→</span>
+
+                    <input name="checkout" type="text" value="{{ request('checkout') }}" placeholder="Check-out"
+                        class="bg-transparent border-0 focus:ring-0 focus:outline-none w-full text-sm" required>
+                </div>
+
+                {{-- Jumlah Tamu --}}
+                <input type="number" name="guest" min="1" value="{{ request('guest') }}"
+                    placeholder="Jumlah Tamu"
+                    class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500 w-full">
+
+                {{-- Button --}}
+                <button type="submit" class="bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold">
                     Cari Hotel
                 </button>
-            </div>
+
+                {{-- Reset --}}
+                @if (request()->anyFilled(['kota', 'checkin', 'checkout', 'guest']))
+                    {{-- tampilkan reset --}}
+                    <a href="{{ route('home') }}"
+                        class="flex-1 text-center border border-gray-300 text-gray-600 rounded-lg
+                               hover:bg-gray-100 font-semibold leading-[48px]">
+                        Reset
+                    </a>
+                @endif
+
+            </form>
+
         </div>
     </section>
 
@@ -175,62 +209,159 @@
     <!-- Hotel List -->
     <section class="max-w-7xl mx-auto px-4 py-12">
         <h2 class="text-2xl font-bold mb-6">
-            Rekomendasi Hotel
+            @if (request()->anyFilled(['kota', 'checkin', 'checkout', 'guest']))
+                Hasil Pencarian
+            @else
+                Rekomendasi Hotel
+            @endif
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {{-- <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             @foreach ($hotels as $hotel)
-            <a href="{{ $hotel['url'] }}">
-                <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
-                    <img src="{{ $hotel['image'] ?? asset('images/hotel-placeholder.jpg') }}"
-                        onerror="this.src='https://via.placeholder.com/600x400?text=Hotel'"
-                        class="rounded-t-xl w-full h-48 object-cover">
+                <a href="{{ $hotel['url'] }}">
+                    <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
+                        <img src="{{ $hotel['image'] ?? asset('images/hotel-placeholder.jpg') }}"
+                            onerror="this.src='https://via.placeholder.com/600x400?text=Hotel'"
+                            class="rounded-t-xl w-full h-48 object-cover">
 
 
-                    <div class="p-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="font-semibold text-lg">
-                                {{ $hotel['name'] }}
-                            </h3>
+                        <div class="p-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-semibold text-lg">
+                                    {{ $hotel['name'] }}
+                                </h3>
 
-                            @if ($hotel['is_promo'])
-                                <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded">
-                                    Promo
-                                </span>
-                            @endif
-                        </div>
-
-                        <p class="text-sm text-gray-500 mb-3">
-                            {{ $hotel['city'] }}
-                        </p>
-
-                        <div class="flex justify-between items-center">
-                            <div>
-                                @if ($hotel['promo_price'])
-                                    <p class="text-gray-400 line-through text-sm">
-                                        Rp {{ number_format($hotel['price'], 0, ',', '.') }}
-                                    </p>
-                                    <p class="text-red-600 font-bold text-lg">
-                                        Rp {{ number_format($hotel['promo_price'], 0, ',', '.') }}
-                                    </p>
-                                @else
-                                    <p class="text-red-600 font-bold text-lg">
-                                        Rp {{ number_format($hotel['price'], 0, ',', '.') }}
-                                    </p>
+                                @if ($hotel['is_promo'])
+                                    <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded">
+                                        Promo
+                                    </span>
                                 @endif
                             </div>
 
-                            <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
-                                Pesan
-                            </button>
+                            <p class="text-sm text-gray-500 mb-3">
+                                {{ $hotel['city'] }}
+                            </p>
+
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    @if ($hotel['promo_price'])
+                                        <p class="text-gray-400 line-through text-sm">
+                                            Rp {{ number_format($hotel['price'], 0, ',', '.') }}
+                                        </p>
+                                        <p class="text-red-600 font-bold text-lg">
+                                            Rp {{ number_format($hotel['promo_price'], 0, ',', '.') }}
+                                        </p>
+                                    @else
+                                        <p class="text-red-600 font-bold text-lg">
+                                            Rp {{ number_format($hotel['price'], 0, ',', '.') }}
+                                        </p>
+                                    @endif
+                                </div>
+
+                                <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                                    Pesan
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
             @endforeach
+        </div> --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            @forelse ($hotels as $hotel)
+                <a href="{{ $hotel['url'] }}"
+                    class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+
+                    <img src="{{ $hotel['image'] }}" class="w-full h-48 object-cover" alt="{{ $hotel['name'] }}">
+
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg">
+                            {{ $hotel['name'] }}
+                        </h3>
+
+                        <p class="text-sm text-gray-500">
+                            {{ $hotel['city'] }}
+                        </p>
+
+                        <div class="mt-2">
+                            @if ($hotel['is_promo'])
+                                <span class="line-through text-gray-400 text-sm">
+                                    Rp {{ number_format($hotel['price']) }}
+                                </span>
+                                <span class="text-red-600 font-bold">
+                                    Rp {{ number_format($hotel['promo_price']) }}
+                                </span>
+                            @else
+                                <span class="font-bold">
+                                    Rp {{ number_format($hotel['price']) }}
+                                </span>
+                            @endif
+                            <span class="text-sm text-gray-500">/ malam</span>
+                        </div>
+                    </div>
+                </a>
+            @empty
+                <p class="text-gray-500 col-span-3 text-center">
+                    Hotel tidak ditemukan
+                </p>
+            @endforelse
         </div>
 
+
     </section>
+
+    {{-- Promo Hotels --}}
+    @if ($promoHotels->isNotEmpty())
+    <div class="bg-gray-100 shadow ">
+        <section class="max-w-7xl mx-auto px-4 py-8">
+            <h2 class="text-2xl font-bold mb-6">
+                Promo Hotel
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @forelse ($promoHotels as $promoHotel)
+                    <a href="{{ $promoHotel['url'] }}"
+                        class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+
+                        <img src="{{ $promoHotel['image'] }}" class="w-full h-48 object-cover"
+                            alt="{{ $promoHotel['name'] }}">
+
+                        <div class="p-4">
+                            <h3 class="font-semibold text-lg">
+                                {{ $promoHotel['name'] }}
+                            </h3>
+
+                            <p class="text-sm text-gray-500">
+                                {{ $promoHotel['city'] }}
+                            </p>
+
+                            <div class="mt-2">
+                                @if ($promoHotel['is_promo'])
+                                    <span class="line-through text-gray-400 text-sm">
+                                        Rp {{ number_format($promoHotel['price']) }}
+                                    </span>
+                                    <span class="text-red-600 font-bold">
+                                        Rp {{ number_format($promoHotel['promo_price']) }}
+                                    </span>
+                                @else
+                                    <span class="font-bold">
+                                        Rp {{ number_format($promoHotel['price']) }}
+                                    </span>
+                                @endif
+                                <span class="text-sm text-gray-500">/ malam</span>
+                            </div>
+                        </div>
+                    </a>
+                @empty
+                    <p class="text-gray-500 col-span-3 text-center">
+                        Hotel tidak ditemukan
+                    </p>
+                @endforelse
+            </div>
+
+
+        </section>
+    </div>
+    @endif
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300">

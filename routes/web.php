@@ -9,12 +9,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BookingInvoiceController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\Partner\RoomController as PartnerRoom;
-use App\Http\Controllers\Public\HotelController as PublicHotel;
-use App\Http\Controllers\Partner\HotelController as PartnerHotel;
-use App\Http\Controllers\Public\BookingController as PublicBooking;
-use App\Http\Controllers\Public\PaymentController as PublicPayment;
 use App\Http\Controllers\Partner\RoomPromoController as PartnerRoomPromo;
 use App\Http\Controllers\Partner\RoomGalleryController as PartnerRoomGallery;
+use App\Http\Controllers\Partner\HotelController as PartnerHotel;
+use App\Http\Controllers\Partner\BookingController as PartnerBooking;
+use App\Http\Controllers\Public\HotelController as PublicHotel;
+use App\Http\Controllers\Public\BookingController as PublicBooking;
+use App\Http\Controllers\Public\PaymentController as PublicPayment;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -114,6 +115,16 @@ Route::middleware(['auth', 'verified', 'role:partner'])
             '/hotels/{property}/rooms/{room}/gallery/{gallery}',
             [PartnerRoomGallery::class, 'destroy']
         )->name('hotels.rooms.gallery.destroy');
+
+        // Booking Management
+        Route::get('/booking', [PartnerBooking::class, 'index'])
+            ->name('booking.index');
+            
+        Route::patch('/booking/{booking}/checkin', [PartnerBooking::class, 'overrideCheckin'])
+            ->name('booking.checkin');
+
+        Route::patch('/booking/{booking}/checkout', [PartnerBooking::class, 'overrideCheckout'])
+            ->name('booking.checkout');
     });
 
 Route::middleware('auth')->group(function () {

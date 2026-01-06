@@ -54,7 +54,6 @@ class Property extends Model
         ]);
     }
 
-
     public function galleries()
     {
         return $this->hasMany(PropertyGallery::class);

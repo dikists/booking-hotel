@@ -34,7 +34,7 @@ class BookingController extends Controller
         /**
          * 2️⃣ Ambil data kamar
          */
-        $room = Room::with('property')->findOrFail($request->room_id);
+        $room = Room::with('property','primaryImage')->findOrFail($request->room_id);
 
         /**
          * 3️⃣ Hitung total malam (HOTEL STANDARD)

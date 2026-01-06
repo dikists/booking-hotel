@@ -15,7 +15,10 @@ class Room extends Model
         'capacity',
         'status',
     ];
-    protected $appends = ['final_price'];
+    protected $appends = [
+        'final_price',
+        'thumbnail',
+    ];
 
     public function getFinalPriceAttribute()
     {
