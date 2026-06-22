@@ -5,9 +5,9 @@
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-3">
 
             <!-- Logo -->
-            <a href="/" class="text-xl font-bold text-red-600">
-                <x-application-logo class="w-16 h-12" />
-                {{-- RedStay --}}
+            <a href="/" class="flex items-center gap-2 text-2xl font-black tracking-wider text-white">
+                <span class="text-neon-gradient">RedStay</span>
+                <span class="text-xs font-semibold px-2 py-0.5 bg-electric-purple/20 text-electric-purple rounded-full border border-electric-purple/30">MVP</span>
             </a>
 
             <!-- Right section -->
@@ -17,19 +17,19 @@
                     @auth
                         <!-- Jika sudah login -->
                         <a href="{{ url('/dashboard') }}"
-                            class="hidden md:inline-block text-red-600 border border-red-600 px-4 py-2 rounded-lg hover:bg-red-50 text-sm font-medium">
+                            class="hidden md:inline-block text-neon-cyan border border-neon-cyan/40 hover:border-neon-cyan px-4 py-2 rounded-lg hover:bg-neon-cyan/10 text-sm font-medium transition duration-200">
                             Dashboard
                         </a>
                     @else
                         <!-- Jika belum login -->
                         <a href="{{ route('login') }}"
-                            class="hidden md:inline-block text-red-600 border border-red-600 px-4 py-2 rounded-lg hover:bg-red-50 text-sm font-medium">
+                            class="hidden md:inline-block text-neon-cyan border border-neon-cyan/40 hover:border-neon-cyan px-4 py-2 rounded-lg hover:bg-neon-cyan/10 text-sm font-medium transition duration-200">
                             Login
                         </a>
 
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}"
-                                class="hidden md:inline-block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm font-medium">
+                                class="hidden md:inline-block bg-neon-gradient text-white px-4 py-2 rounded-lg shadow-neon shadow-neon-hover hover:opacity-95 text-sm font-medium transition duration-200">
                                 Daftar
                             </a>
                         @endif
@@ -38,7 +38,7 @@
 
                 <!-- Mobile menu button -->
                 <button id="mobile-menu-btn" data-collapse-toggle="navbar-redstay" type="button"
-                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-600 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-200">
+                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700">
                     <span class="sr-only">Open main menu</span>
                     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -51,17 +51,17 @@
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-redstay">
                 <ul class="flex flex-col md:flex-row md:space-x-8 font-medium mt-4 md:mt-0">
                     <li>
-                        <a href="#" class="nav-link block py-2 text-white hover:text-red-300">
+                        <a href="#" class="nav-link block py-2 text-gray-300 hover:text-neon-cyan transition duration-200">
                             Hotel
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link block py-2 text-white hover:text-red-300">
+                        <a href="#" class="nav-link block py-2 text-gray-300 hover:text-neon-cyan transition duration-200">
                             Promo
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link block py-2 text-white hover:text-red-300">
+                        <a href="#" class="nav-link block py-2 text-gray-300 hover:text-neon-cyan transition duration-200">
                             Bantuan
                         </a>
                     </li>
@@ -69,22 +69,22 @@
                     <!-- Mobile auth -->
                     @if (Route::has('login'))
                         @guest
-                            <li class="md:hidden border-t pt-3 mt-3 space-y-2">
+                            <li class="md:hidden border-t border-gray-800 pt-3 mt-3 space-y-2">
                                 <a href="{{ route('login') }}"
-                                    class="block w-full text-center text-red-600 border border-red-600 px-4 py-2 rounded-lg">
+                                    class="block w-full text-center text-neon-cyan border border-neon-cyan/40 px-4 py-2 rounded-lg">
                                     Login
                                 </a>
                                 @if (Route::has('register'))
                                     <a href="{{ route('register') }}"
-                                        class="block w-full text-center bg-red-600 text-white px-4 py-2 rounded-lg">
+                                        class="block w-full text-center bg-neon-gradient text-white px-4 py-2 rounded-lg">
                                         Daftar
                                     </a>
                                 @endif
                             </li>
                         @else
-                            <li class="md:hidden border-t pt-3 mt-3 space-y-2">
+                            <li class="md:hidden border-t border-gray-800 pt-3 mt-3 space-y-2">
                                 <a href="{{ url('/dashboard') }}"
-                                    class="block w-full text-center text-red-600 border border-red-600 px-4 py-2 rounded-lg">
+                                    class="block w-full text-center text-neon-cyan border border-neon-cyan/40 px-4 py-2 rounded-lg">
                                     Dashboard
                                 </a>
                             </li>
@@ -96,64 +96,65 @@
     </nav>
 
     <!-- Hero -->
-    <section class="relative min-h-[70vh]">
+    <section class="relative min-h-[75vh] flex items-center justify-center">
         <div class="absolute inset-0">
             <img loading="lazy"
                 src="https://images.reddoorz.com/banner/id/153/KV_Reddoorz_Main_Visual_webmainbanner-1366x530-hi_ID__1_.jpg?w=1366"
                 class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0b0f19]/90 via-[#0b0f19]/70 to-[#0b0f19]"></div>
         </div>
 
-        <div class="relative max-w-7xl mx-auto px-4 py-24 text-center text-white">
-            <h1 class="text-4xl font-bold mb-4">
-                Cari Hotel Murah & Nyaman
+        <div class="relative max-w-7xl mx-auto px-4 py-24 text-center text-white z-10">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight">
+                Cari Hotel Murah & <span class="text-neon-gradient">Nyaman</span>
             </h1>
-            <p class="mb-10 text-gray-200">
-                Menginap nyaman dengan harga terbaik
+            <p class="mb-12 text-gray-400 text-lg md:text-xl font-light">
+                Agregator akomodasi terstandardisasi, andal, dan transparan
             </p>
 
             <form method="GET" action="{{ route('home') }}"
-                class="bg-white rounded-xl p-4 grid grid-cols-1 md:grid-cols-5 gap-4 text-gray-700 shadow-lg">
+                class="glass-card rounded-2xl p-6 grid grid-cols-1 md:grid-cols-5 gap-4 text-gray-300 shadow-2xl">
 
                 {{-- Kota --}}
-                <input list="city-list" name="kota" value="{{ request('kota') }}" placeholder="Kota / Lokasi"
-                    class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500 w-full">
-
-                <datalist id="city-list">
-                    @foreach ($cities as $city)
-                        <option value="{{ $city }}"></option>
-                    @endforeach
-                </datalist>
+                <div class="relative">
+                    <input list="city-list" name="kota" value="{{ request('kota') }}" placeholder="Kota / Lokasi"
+                        class="bg-gray-950/50 border border-gray-800 rounded-xl p-3 focus:outline-none focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan text-white w-full">
+                    <datalist id="city-list">
+                        @foreach ($cities as $city)
+                            <option value="{{ $city }}"></option>
+                        @endforeach
+                    </datalist>
+                </div>
 
                 {{-- Date Range --}}
                 <div date-rangepicker datepicker-min-date="{{ now()->format('Y-m-d') }}" datepicker-format="yyyy-mm-dd"
-                    datepicker-autohide class="flex items-center gap-2 border rounded-lg p-2 bg-gray-50">
+                    datepicker-autohide class="flex items-center gap-2 border border-gray-800 rounded-xl p-2 bg-gray-950/50">
 
                     <input name="checkin" type="text" value="{{ request('checkin') }}" placeholder="Check-in"
-                        class="bg-transparent border-0 focus:ring-0 focus:outline-none w-full text-sm" required>
+                        class="bg-transparent border-0 focus:ring-0 focus:outline-none w-full text-sm text-white" required>
 
-                    <span class="text-gray-400">→</span>
+                    <span class="text-gray-500">→</span>
 
                     <input name="checkout" type="text" value="{{ request('checkout') }}" placeholder="Check-out"
-                        class="bg-transparent border-0 focus:ring-0 focus:outline-none w-full text-sm" required>
+                        class="bg-transparent border-0 focus:ring-0 focus:outline-none w-full text-sm text-white" required>
                 </div>
 
                 {{-- Jumlah Tamu --}}
-                <input type="number" name="guest" min="1" value="{{ request('guest') }}"
-                    placeholder="Jumlah Tamu"
-                    class="border rounded-lg p-3 focus:ring-red-500 focus:border-red-500 w-full">
+                <div>
+                    <input type="number" name="guest" min="1" value="{{ request('guest') }}"
+                        placeholder="Jumlah Tamu"
+                        class="bg-gray-950/50 border border-gray-800 rounded-xl p-3 focus:outline-none focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan text-white w-full">
+                </div>
 
                 {{-- Button --}}
-                <button type="submit" class="bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold">
+                <button type="submit" class="bg-neon-gradient text-white rounded-xl shadow-neon hover:shadow-neon-hover font-semibold transition-all duration-300 py-3">
                     Cari Hotel
                 </button>
 
                 {{-- Reset --}}
                 @if (request()->anyFilled(['kota', 'checkin', 'checkout', 'guest']))
-                    {{-- tampilkan reset --}}
                     <a href="{{ route('home') }}"
-                        class="flex-1 text-center border border-gray-300 text-gray-600 rounded-lg
-                               hover:bg-gray-100 font-semibold leading-[48px]">
+                        class="flex items-center justify-center border border-gray-800 hover:border-gray-700 text-gray-400 hover:text-white rounded-xl font-medium transition duration-200 py-3">
                         Reset
                     </a>
                 @endif
@@ -163,236 +164,188 @@
         </div>
     </section>
 
-    {{-- @php
-        $hotels = [
-            [
-                'name' => 'RedStay Hotel Jakarta',
-                'city' => 'Jakarta Pusat',
-                'image' =>
-                    'https://images.reddoorz.com/photos/123708/desktop_hotel_gallery_large_900x600_90f45642-d04a-4194-aa88-38c41d5847c2_2F_DDP9374.jpg?w=900',
-                'price' => 450000,
-                'promo_price' => 320000,
-                'is_promo' => true,
-                'url'   => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
-            ],
-            [
-                'name' => 'RedStay Hotel Bandung',
-                'city' => 'Bandung',
-                'image' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945',
-                'price' => 380000,
-                'promo_price' => 290000,
-                'is_promo' => true,
-                'url'   => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
-            ],
-            [
-                'name' => 'RedStay Hotel Surabaya',
-                'city' => 'Surabaya',
-                'image' => 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa',
-                'price' => 420000,
-                'promo_price' => null,
-                'is_promo' => false,
-                'url'   => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
-            ],
-            [
-                'name' => 'RedStay Hotel Medan',
-                'city' => 'Medan',
-                'image' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945',
-                'price' => 400000,
-                'promo_price' => null,
-                'is_promo' => false,
-                'url'   => '/hotel/indonesia/banten/tangerang/benda/reddstay-near-soetta',
-            ],
-        ];
-    @endphp --}}
-
-
     <!-- Hotel List -->
-    <section class="max-w-7xl mx-auto px-4 py-12">
-        <h2 class="text-2xl font-bold mb-6">
-            @if (request()->anyFilled(['kota', 'checkin', 'checkout', 'guest']))
-                Hasil Pencarian
-            @else
-                Rekomendasi Hotel
-            @endif
-        </h2>
+    <section class="max-w-7xl mx-auto px-4 py-16">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h2 class="text-3xl font-extrabold tracking-tight text-white">
+                    @if (request()->anyFilled(['kota', 'checkin', 'checkout', 'guest']))
+                        Hasil Pencarian
+                    @else
+                        Rekomendasi Hotel
+                    @endif
+                </h2>
+                <p class="text-gray-400 mt-1 text-sm">Akomodasi budget pilihan terstandardisasi</p>
+            </div>
+            <div class="h-1 w-20 bg-neon-gradient rounded-full"></div>
+        </div>
 
-        {{-- <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            @foreach ($hotels as $hotel)
-                <a href="{{ $hotel['url'] }}">
-                    <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
-                        <img src="{{ $hotel['image'] ?? asset('images/hotel-placeholder.jpg') }}"
-                            onerror="this.src='https://via.placeholder.com/600x400?text=Hotel'"
-                            class="rounded-t-xl w-full h-48 object-cover">
-
-
-                        <div class="p-4">
-                            <div class="flex justify-between items-center mb-2">
-                                <h3 class="font-semibold text-lg">
-                                    {{ $hotel['name'] }}
-                                </h3>
-
-                                @if ($hotel['is_promo'])
-                                    <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded">
-                                        Promo
-                                    </span>
-                                @endif
-                            </div>
-
-                            <p class="text-sm text-gray-500 mb-3">
-                                {{ $hotel['city'] }}
-                            </p>
-
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    @if ($hotel['promo_price'])
-                                        <p class="text-gray-400 line-through text-sm">
-                                            Rp {{ number_format($hotel['price'], 0, ',', '.') }}
-                                        </p>
-                                        <p class="text-red-600 font-bold text-lg">
-                                            Rp {{ number_format($hotel['promo_price'], 0, ',', '.') }}
-                                        </p>
-                                    @else
-                                        <p class="text-red-600 font-bold text-lg">
-                                            Rp {{ number_format($hotel['price'], 0, ',', '.') }}
-                                        </p>
-                                    @endif
-                                </div>
-
-                                <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
-                                    Pesan
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            @endforeach
-        </div> --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             @forelse ($hotels as $hotel)
                 <a href="{{ $hotel['url'] }}"
-                    class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+                    class="group bg-gray-900/40 border border-gray-800/80 rounded-2xl shadow-xl hover:shadow-neon hover:border-gray-700/60 transition-all duration-300 overflow-hidden flex flex-col">
 
-                    <img src="{{ $hotel['image'] }}" class="w-full h-48 object-cover" alt="{{ $hotel['name'] }}">
+                    <div class="relative overflow-hidden h-52">
+                        <img src="{{ $hotel['image'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $hotel['name'] }}">
+                        @if ($hotel['is_promo'])
+                            <span class="absolute top-4 left-4 bg-neon-gradient text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                                PROMO
+                            </span>
+                        @endif
+                        <span class="absolute bottom-4 right-4 bg-gray-950/80 backdrop-blur-md text-gray-300 text-xs px-2.5 py-1 rounded-lg border border-gray-800 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            4.8
+                        </span>
+                    </div>
 
-                    <div class="p-4">
-                        <h3 class="font-semibold text-lg">
-                            {{ $hotel['name'] }}
-                        </h3>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-xl text-white group-hover:text-neon-cyan transition duration-200 line-clamp-1">
+                                {{ $hotel['name'] }}
+                            </h3>
 
-                        <p class="text-sm text-gray-500">
-                            {{ $hotel['city'] }}
-                        </p>
+                            <p class="text-sm text-gray-400 mt-2 flex items-center gap-1">
+                                <svg class="w-4 h-4 text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                {{ $hotel['city'] }}
+                            </p>
+                        </div>
 
-                        <div class="mt-2">
-                            @if ($hotel['is_promo'])
-                                <span class="line-through text-gray-400 text-sm">
-                                    Rp {{ number_format($hotel['price']) }}
-                                </span>
-                                <span class="text-red-600 font-bold">
-                                    Rp {{ number_format($hotel['promo_price']) }}
-                                </span>
-                            @else
-                                <span class="font-bold">
-                                    Rp {{ number_format($hotel['price']) }}
-                                </span>
-                            @endif
-                            <span class="text-sm text-gray-500">/ malam</span>
+                        <div class="mt-6 pt-4 border-t border-gray-800/80 flex justify-between items-center">
+                            <div>
+                                @if ($hotel['is_promo'])
+                                    <span class="line-through text-gray-500 text-xs block">
+                                        Rp {{ number_format($hotel['price']) }}
+                                    </span>
+                                    <span class="text-neon-cyan font-extrabold text-lg">
+                                        Rp {{ number_format($hotel['promo_price']) }}
+                                    </span>
+                                @else
+                                    <span class="font-extrabold text-lg text-white">
+                                        Rp {{ number_format($hotel['price']) }}
+                                    </span>
+                                @endif
+                                <span class="text-xs text-gray-400">/ malam</span>
+                            </div>
+
+                            <button class="bg-neon-gradient text-white text-sm px-4 py-2 rounded-lg font-semibold shadow-neon transition duration-300">
+                                Detail
+                            </button>
                         </div>
                     </div>
                 </a>
             @empty
-                <p class="text-gray-500 col-span-3 text-center">
-                    Hotel tidak ditemukan
-                </p>
+                <div class="col-span-3 text-center py-12 glass-card rounded-2xl border border-gray-800">
+                    <svg class="w-12 h-12 text-gray-500 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="text-gray-400 font-medium">Hotel tidak ditemukan</p>
+                    <p class="text-sm text-gray-500 mt-1">Coba gunakan kata kunci kota lain</p>
+                </div>
             @endforelse
         </div>
-
-
     </section>
 
     {{-- Promo Hotels --}}
     @if ($promoHotels->isNotEmpty())
-    <div class="bg-gray-100 shadow ">
-        <section class="max-w-7xl mx-auto px-4 py-8">
-            <h2 class="text-2xl font-bold mb-6">
-                Promo Hotel
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                @forelse ($promoHotels as $promoHotel)
+    <div class="bg-gray-950/40 border-t border-b border-gray-900 py-16">
+        <section class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-white">
+                        Kamar Diskon Spesial
+                    </h2>
+                    <p class="text-gray-400 mt-1 text-sm">Dapatkan potongan harga langsung khusus hari ini</p>
+                </div>
+                <div class="h-1 w-20 bg-neon-gradient rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                @foreach ($promoHotels as $promoHotel)
                     <a href="{{ $promoHotel['url'] }}"
-                        class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+                        class="group bg-gray-900/40 border border-gray-800/80 rounded-2xl shadow-xl hover:shadow-neon hover:border-gray-700/60 transition-all duration-300 overflow-hidden flex flex-col">
 
-                        <img src="{{ $promoHotel['image'] }}" class="w-full h-48 object-cover"
-                            alt="{{ $promoHotel['name'] }}">
+                        <div class="relative overflow-hidden h-52">
+                            <img src="{{ $promoHotel['image'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $promoHotel['name'] }}">
+                            <span class="absolute top-4 left-4 bg-neon-gradient text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                                PROMO DASHING
+                            </span>
+                        </div>
 
-                        <div class="p-4">
-                            <h3 class="font-semibold text-lg">
-                                {{ $promoHotel['name'] }}
-                            </h3>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-xl text-white group-hover:text-neon-cyan transition duration-200 line-clamp-1">
+                                    {{ $promoHotel['name'] }}
+                                </h3>
 
-                            <p class="text-sm text-gray-500">
-                                {{ $promoHotel['city'] }}
-                            </p>
+                                <p class="text-sm text-gray-400 mt-2 flex items-center gap-1">
+                                    <svg class="w-4 h-4 text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    {{ $promoHotel['city'] }}
+                                </p>
+                            </div>
 
-                            <div class="mt-2">
-                                @if ($promoHotel['is_promo'])
-                                    <span class="line-through text-gray-400 text-sm">
+                            <div class="mt-6 pt-4 border-t border-gray-800/80 flex justify-between items-center">
+                                <div>
+                                    <span class="line-through text-gray-500 text-xs block">
                                         Rp {{ number_format($promoHotel['price']) }}
                                     </span>
-                                    <span class="text-red-600 font-bold">
+                                    <span class="text-neon-cyan font-extrabold text-lg">
                                         Rp {{ number_format($promoHotel['promo_price']) }}
                                     </span>
-                                @else
-                                    <span class="font-bold">
-                                        Rp {{ number_format($promoHotel['price']) }}
-                                    </span>
-                                @endif
-                                <span class="text-sm text-gray-500">/ malam</span>
+                                    <span class="text-xs text-gray-400">/ malam</span>
+                                </div>
+
+                                <button class="bg-neon-gradient text-white text-sm px-4 py-2 rounded-lg font-semibold shadow-neon transition duration-300">
+                                    Ambil Promo
+                                </button>
                             </div>
                         </div>
                     </a>
-                @empty
-                    <p class="text-gray-500 col-span-3 text-center">
-                        Hotel tidak ditemukan
-                    </p>
-                @endforelse
+                @endforeach
             </div>
-
-
         </section>
     </div>
     @endif
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300">
-        <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <footer class="bg-gray-950 border-t border-gray-900 text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-3 gap-12">
             <div>
-                <h4 class="font-bold mb-3 text-white">RedStay</h4>
-                <p class="text-sm">
-                    Solusi penginapan murah & nyaman di seluruh Indonesia.
+                <h4 class="text-2xl font-black tracking-wider text-neon-gradient mb-4">RedStay</h4>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    Platform agregator & pemesanan hotel budget terstandardisasi di Indonesia. Nyaman, andal, cepat, dan transparan oleh Romadoni Labs.
                 </p>
             </div>
 
             <div>
-                <h4 class="font-bold mb-3 text-white">Menu</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#" class="hover:text-white">Hotel</a></li>
-                    <li><a href="#" class="hover:text-white">Promo</a></li>
-                    <li><a href="#" class="hover:text-white">Tentang Kami</a></li>
+                <h4 class="font-bold mb-4 text-white uppercase text-sm tracking-widest">Akses Cepat</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="hover:text-neon-cyan transition duration-200">Daftar Hotel</a></li>
+                    <li><a href="#" class="hover:text-neon-cyan transition duration-200">Promo Unggulan</a></li>
+                    <li><a href="#" class="hover:text-neon-cyan transition duration-200">Cara Pemesanan</a></li>
+                    <li><a href="#" class="hover:text-neon-cyan transition duration-200">Pusat Bantuan</a></li>
                 </ul>
             </div>
 
             <div>
-                <h4 class="font-bold mb-3 text-white">Kontak</h4>
-                <p class="text-sm">support@redstay.com</p>
+                <h4 class="font-bold mb-4 text-white uppercase text-sm tracking-widest">Layanan Pelanggan</h4>
+                <p class="text-sm leading-relaxed mb-2">Punya pertanyaan atau kendala?</p>
+                <p class="text-lg font-bold text-white mb-2">support@redstay.com</p>
+                <p class="text-xs text-gray-500">Romadoni Labs Product Ecosystem © {{ date('Y') }}</p>
             </div>
         </div>
 
-        <div class="text-center text-sm border-t border-gray-700 py-4">
-            © {{ date('Y') }} RedStay. All rights reserved.
+        <div class="text-center text-xs border-t border-gray-900 py-6 text-gray-600 bg-gray-950/50">
+            © {{ date('Y') }} RedStay Booking Platform. Hak Cipta Dilindungi.
         </div>
     </footer>
-
 
     @push('scripts')
         <script>
@@ -403,21 +356,21 @@
 
             function setNavbarSolid() {
                 navbar.classList.remove('bg-transparent');
-                navbar.classList.add('bg-white', 'shadow');
+                navbar.classList.add('bg-[#0b0f19]/90', 'backdrop-blur-md', 'border-b', 'border-gray-800/80', 'shadow-lg');
 
                 navLinks.forEach(link => {
-                    link.classList.remove('text-white', 'hover:text-red-300');
-                    link.classList.add('text-gray-700', 'hover:text-red-600');
+                    link.classList.remove('text-gray-300');
+                    link.classList.add('text-gray-200');
                 });
             }
 
             function setNavbarTransparent() {
                 navbar.classList.add('bg-transparent');
-                navbar.classList.remove('bg-white', 'shadow');
+                navbar.classList.remove('bg-[#0b0f19]/90', 'backdrop-blur-md', 'border-b', 'border-gray-800/80', 'shadow-lg');
 
                 navLinks.forEach(link => {
-                    link.classList.remove('text-gray-700', 'hover:text-red-600');
-                    link.classList.add('text-white', 'hover:text-red-300');
+                    link.classList.remove('text-gray-200');
+                    link.classList.add('text-gray-300');
                 });
             }
 

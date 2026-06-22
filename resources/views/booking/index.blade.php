@@ -1,32 +1,34 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Booking Saya
+        <h2 class="font-extrabold text-xl text-white leading-tight">
+            Booking <span class="text-neon-gradient">Saya</span>
         </h2>
     </x-slot>
 
     <section class="max-w-7xl mx-auto px-4 py-10">
-        <div class="bg-white rounded-xl shadow p-6">
-            <div class="hidden md:block lg:block relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-lg border border-default">
-                <table class="w-full text-sm text-left text-body">
-                    <thead class="bg-neutral-secondary-soft border-b">
+        <div class="bg-gray-900/40 border border-gray-800 rounded-2xl p-6 shadow-xl">
+            
+            {{-- DESKTOP VIEW --}}
+            <div class="hidden md:block relative overflow-x-auto rounded-xl border border-gray-850 shadow-lg">
+                <table class="w-full text-sm text-left text-gray-300">
+                    <thead class="bg-gray-950/80 border-b border-gray-850 text-gray-400 uppercase text-[10px] tracking-wider font-bold">
                         <tr>
-                            <th class="px-6 py-3 font-medium">Kode</th>
-                            <th class="px-6 py-3 font-medium">Hotel</th>
-                            <th class="px-6 py-3 font-medium">Kamar</th>
-                            <th class="px-6 py-3 font-medium">Check-in</th>
-                            <th class="px-6 py-3 font-medium">Check-out</th>
-                            <th class="px-6 py-3 font-medium">Status</th>
-                            <th class="px-6 py-3 font-medium">Aksi</th>
+                            <th class="px-6 py-4">Kode</th>
+                            <th class="px-6 py-4">Hotel</th>
+                            <th class="px-6 py-4">Kamar</th>
+                            <th class="px-6 py-4">Check-in</th>
+                            <th class="px-6 py-4">Check-out</th>
+                            <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($bookings as $booking)
-                            <tr class="">
-                                <td class="px-6 py-4 font-medium">
+                    <tbody class="divide-y divide-gray-850 bg-gray-900/10">
+                        @forelse ($bookings as $booking)
+                            <tr class="hover:bg-gray-900/50 transition">
+                                <td class="px-6 py-4 font-mono font-bold text-white tracking-wider">
                                     {{ $booking->booking_code }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 font-semibold text-white">
                                     {{ $booking->room->property->name ?? '-' }}
                                 </td>
                                 <td class="px-6 py-4">
@@ -40,44 +42,51 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <span
-                                        class="px-3 py-1 rounded-full text-xs
-                            {{ $booking->booking_status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
-                                        {{ ucfirst($booking->booking_status) }}
+                                        class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border
+                            {{ $booking->booking_status === 'paid' ? 'bg-neon-cyan/15 text-neon-cyan border-neon-cyan/30' : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' }}">
+                                        {{ $booking->booking_status }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 text-right">
                                     <a href="{{ route('booking.show', $booking->id) }}"
-                                        class="text-red-600 hover:underline">
-                                        Detail
+                                        class="text-neon-cyan font-bold hover:underline transition">
+                                        Detail →
                                     </a>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-8 text-gray-500">
+                                    Belum ada transaksi pemesanan.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
-            <div class="md:hidden space-y-2">
-                @foreach ($bookings as $booking)
-                    <div class="border rounded-xl p-4 shadow-sm">
-                        <div class="flex justify-between items-start">
+            {{-- MOBILE VIEW --}}
+            <div class="md:hidden space-y-4">
+                @forelse ($bookings as $booking)
+                    <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-5 shadow-md flex flex-col justify-between gap-4">
+                        <div class="flex justify-between items-start gap-4">
                             <div>
-                                <p class="text-sm text-gray-500">Kode Booking</p>
-                                <p class="font-semibold">
+                                <p class="text-xs text-gray-500 font-semibold">Kode Booking</p>
+                                <p class="font-mono font-bold text-white tracking-wider text-sm mt-0.5">
                                     {{ $booking->booking_code }}
                                 </p>
                             </div>
 
                             <span
-                                class="px-3 py-1 rounded-full text-xs
-                    {{ $booking->booking_status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
-                                {{ ucfirst($booking->booking_status) }}
+                                class="px-3 py-1 rounded-full text-[10px] font-bold uppercase border tracking-wider
+                                {{ $booking->booking_status === 'paid' ? 'bg-neon-cyan/15 text-neon-cyan border-neon-cyan/30' : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' }}">
+                                {{ $booking->booking_status }}
                             </span>
                         </div>
 
-                        <div class="mt-3 space-y-1 text-sm">
+                        <div class="space-y-1.5 text-xs text-gray-300">
                             <p><span class="text-gray-500">Hotel:</span>
-                                {{ $booking->room->property->name ?? '-' }}
+                                <strong class="text-white">{{ $booking->room->property->name ?? '-' }}</strong>
                             </p>
                             <p><span class="text-gray-500">Kamar:</span>
                                 {{ $booking->room->room_name }}
@@ -91,17 +100,18 @@
                         </div>
 
                         <a href="{{ route('booking.show', $booking->id) }}"
-                            class="mt-4 inline-block w-full text-center bg-red-600 text-white py-2 rounded-lg">
+                            class="inline-block w-full text-center bg-neon-gradient text-white py-2.5 rounded-xl font-bold shadow-neon text-sm transition">
                             Lihat Detail
                         </a>
                     </div>
-                @endforeach
+                @empty
+                    <p class="text-center py-8 text-gray-500">
+                        Belum ada transaksi pemesanan.
+                    </p>
+                @endforelse
             </div>
 
-
         </div>
-
     </section>
-
 
 </x-app-layout>
